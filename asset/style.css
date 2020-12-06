@@ -1,0 +1,14 @@
+.nav-wrapper .brand-logo {
+	margin-left: 24px;
+	height: 100%;
+	padding: 8px 0;
+}
+@media only screen and (max-width: 600px) {
+	.nav-wrapper .brand-logo {
+		margin-left: 0;
+		padding: 4px 0;
+	}
+}
+.nav-wrapper .brand-logo img {
+	width: 48px;
+}
