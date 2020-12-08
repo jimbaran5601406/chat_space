@@ -1,11 +1,24 @@
 <?php
 $title = 'ログイン';
 require_once './template/header.php';
-require_once './functions.php';
 require_once './env.php';
 require_once './connect.php';
+require_once './functions.php';
 
 session_start();
+
+if(!empty($_COOKIE['auto_login'])) {
+	$user = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
+	$user->execute(array(':auto_login_key' => $_COOKIE['auto_login']));
+	$check_user = $user->fetch();
+
+	if($check_user['auto_login_key'] === $_COOKIE['auto_login']) {
+		setup_auto_login($db, $check_user['id']);
+		header('Location: index.php');
+		exit();
+	}
+}
+
 
 if(!empty($_POST)) {
 	$email = h($_POST['email']);
@@ -26,6 +39,11 @@ if(!empty($_POST)) {
         if(password_verify($password, $check_user['password'])) {
 			$_SESSION['id'] = $check_user['id'];
 			$_SESSION['time'] = time();
+
+			if($_POST['auto_login'] === 'checked') {
+				setup_auto_login($db, $check_user['id']);
+			}
+
             header('Location: index.php');
             exit();
         }else {
@@ -33,6 +51,8 @@ if(!empty($_POST)) {
         }
 	}
 }
+
+
 
 ?>
 
@@ -70,6 +90,10 @@ if(!empty($_POST)) {
 						<p class="red-text"><?= $error_msg['password_min'] ?></p>
 					<?php endif;?>
 				</div>
+				<label>
+					<input name="auto_login" type="checkbox" value="checked">
+					<span>次回から自動でログイン</span>
+				</label>
 			</div>
 			<div class="row">
 				<button class="waves-effect waves-light btn" type="submit">ログイン</button>
