@@ -18,5 +18,4 @@
 
 <?php
 require_once 'navigation.php';
-require_once '../register/functions.php';
 ?>

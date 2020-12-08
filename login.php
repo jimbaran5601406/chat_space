@@ -1,71 +1,53 @@
 <?php
-$title = '会員登録';
-require_once '../template/header.php';
-require_once '../functions.php';
-require_once '../env.php';
-require_once '../connect.php';
+$title = 'ログイン';
+require_once './template/header.php';
+require_once './functions.php';
+require_once './env.php';
+require_once './connect.php';
 
 session_start();
 
 if(!empty($_POST)) {
-	$name = h($_POST['name']);
 	$email = h($_POST['email']);
 	$password = h($_POST['password']);
 
-	if($name === '') {
-		$error_msg['name_required'] = "※ユーザー名は必ず入力してください";
-	}
 	if($email === '') {
 		$error_msg['email_required'] = "※メールアドレスは必ず入力してください";
 	}
 	if($password === '') {
 		$error_msg['password_required'] = "※パスワードは必ず入力してください";
 	}
-	if(mb_strlen($password) < 8) {
-		$error_msg['password_min'] = "※パスワードは8文字以上入力してください";
-	}
 
 	if(empty($error_msg)) {
-		$user = $db->prepare("SELECT COUNT(*) as result_num FROM users WHERE email=:email");
+		$user = $db->prepare("SELECT * FROM users WHERE email=:email");
 		$user->execute(array(':email' => $email));
-		$record_count = $user->fetch();
-		if($record_count['result_num'] > 0) {
-			$error_msg['email_duplicated'] = "※指定したメールアドレスは既に登録されています";
-		}
-	}
+		$check_user = $user->fetch();
 
-	if(empty($error_msg)) {
-		$_SESSION['register'] = $_POST;
-		header('Location: check.php');
-		exit();
+        if(password_verify($password, $check_user['password'])) {
+			$_SESSION['id'] = $check_user['id'];
+			$_SESSION['time'] = time();
+            header('Location: index.php');
+            exit();
+        }else {
+            $error_msg['login_failed'] = "※メールアドレスまたはパスワードが間違っています";
+        }
 	}
-}
-
-if(isset($_GET['action']) && isset($_SESSION['register'])) {
-	$_POST = $_SESSION['register'];
-	$name = h($_POST['name']);
-	$email = h($_POST['email']);
-	$password = h($_POST['password']);
 }
 
 ?>
 
 <div class="container">
 	<div class="row">
-		<h2>会員登録</h2>
+		<h2>ログイン</h2>
 	</div>
 
 	<div class="row">
 		<form class="col s12" action="" method="post">
 			<div class="row">
-				<div class="input-field">
-					<input class="validate" name="name" id="name" maxlength="255" type="text" value="<?= isset($name)? $name: ''; ?>">
-					<label for="name">ユーザー名</label>
-					<?php if(isset($error_msg['name_required'])): ?>
-						<p class="red-text"><?= $error_msg['name_required'] ?></p>
-					<?php endif;?>
-				</div>
-			</div>
+                <?php if(isset($error_msg['login_failed'])): ?>
+                    <p class="red-text"><?= $error_msg['login_failed'] ?></p>
+                <?php endif;?>
+            </div>
 			<div class="row">
 				<div class="input-field">
 					<input class="validate" name="email" id="email" maxlength="255" type="email" value="<?= isset($email)? $email: ''; ?>">
@@ -90,11 +72,11 @@ if(isset($_GET['action']) && isset($_SESSION['register'])) {
 				</div>
 			</div>
 			<div class="row">
-				<button class="waves-effect waves-light btn" type="submit">確認</button>
+				<button class="waves-effect waves-light btn" type="submit">ログイン</button>
 			</div>
 			<div class="row">
-				<a href="../login.php" class="already-registered">
-					<span data-text="既に登録済みの方はコチラ">既に登録済みの方はコチラ</span>
+				<a href="./register" class="not-registered">
+					<span data-text="まだ登録がお済みでない方はコチラ">まだ登録がお済みでない方はコチラ</span>
 				</a>
 			</div>
 		</form>

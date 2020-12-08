@@ -10,7 +10,7 @@ require_once '../template/header.php';
 
 	<div class="row">
 		<div class="col s12">
-            <a class="waves-effect waves-light btn-large"   href="../">ログイン</a>
+            <a class="waves-effect waves-light btn-large"   href="../login.php">ログイン</a>
         </div>
 	</div>
 </div>

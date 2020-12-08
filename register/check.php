@@ -1,6 +1,7 @@
 <?php
 $title = '入力内容確認';
 require_once '../template/header.php';
+require_once '../functions.php';
 require_once '../env.php';
 require_once '../connect.php';
 
