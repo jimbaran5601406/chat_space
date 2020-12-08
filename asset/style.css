@@ -1,14 +1,13 @@
-.nav-wrapper .brand-logo {
+#app_name {
+	font-size: 1.5rem;
 	margin-left: 24px;
-	height: 100%;
-	padding: 8px 0;
 }
 @media only screen and (max-width: 600px) {
-	.nav-wrapper .brand-logo {
-		margin-left: 0;
-		padding: 4px 0;
+	.nav-wrapper {
+		text-align: center;
 	}
-}
-.nav-wrapper .brand-logo img {
-	width: 48px;
+	#app_name {
+		font-size: 1.2rem;
+		margin: 0 60px 0 0;
+	}
 }
