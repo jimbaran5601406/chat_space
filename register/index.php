@@ -1,6 +1,8 @@
 <?php
 $title = '会員登録';
 require_once '../template/header.php';
+require_once '../env.php';
+require_once '../connect.php';
 
 session_start();
 
@@ -23,6 +25,15 @@ if(!empty($_POST)) {
 	}
 
 	if(empty($error_msg)) {
+		$user = $db->prepare("SELECT COUNT(*) as result_num FROM users WHERE email=:email");
+		$user->execute(array(':email' => $email));
+		$record_count = $user->fetch();
+		if($record_count['result_num'] > 0) {
+			$error_msg['email_duplicated'] = "※指定したメールアドレスは既に登録されています";
+		}
+	}
+
+	if(empty($error_msg)) {
 		$_SESSION['register'] = $_POST;
 		header('Location: check.php');
 		exit();
@@ -33,6 +44,7 @@ if(isset($_GET['action']) && isset($_SESSION['register'])) {
 	$_POST = $_SESSION['register'];
 	$name = h($_POST['name']);
 	$email = h($_POST['email']);
+	$password = h($_POST['password']);
 }
 
 ?>
@@ -60,11 +72,14 @@ if(isset($_GET['action']) && isset($_SESSION['register'])) {
 					<?php if(isset($error_msg['email_required'])): ?>
 						<p class="red-text"><?= $error_msg['email_required'] ?></p>
 					<?php endif;?>
+					<?php if(isset($error_msg['email_duplicated'])): ?>
+						<p class="red-text"><?= $error_msg['email_duplicated'] ?></p>
+					<?php endif;?>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field">
-					<input class="validate" name="password" id="password" maxlength="30" type="password">
+					<input class="validate" name="password" id="password" maxlength="30" type="password" value="<?= isset($password)? $password: ''; ?>">
 					<label for="password">パスワード</label>
 					<?php if(isset($error_msg['password_required'])): ?>
 						<p class="red-text"><?= $error_msg['password_required'] ?></p>

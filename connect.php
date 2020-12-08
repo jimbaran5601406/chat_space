@@ -1,12 +1,10 @@
 <?php
-require './env.php';
 
 try {
     $dsn = 'mysql:dbname=social-networking-service;host=localhost;charset=utf8';
-    $username = getenv('DB_USERNAME');
-    $password = getenv('DB_PASSWORD');
-    $db = new PDO($dsn, $username, $password);
-    print 'PDOによる接続に成功しました。';
+    $db_username = getenv('DB_USERNAME');
+    $db_password = getenv('DB_PASSWORD');
+    $db = new PDO($dsn, $db_username, $db_password);
 } catch(PDOException $e) {
     echo('DB接続エラー：'.$e->getMessage());
 }
