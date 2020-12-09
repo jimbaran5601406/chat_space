@@ -1,19 +1,16 @@
 <?php
 $title = 'ログイン/Chat Space';
 require_once './template/header.php';
-require_once './env.php';
-require_once './connect.php';
-require_once './functions.php';
 
 session_start();
 
 if(!empty($_COOKIE['auto_login'])) {
 	$stmt = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
 	$stmt->execute(array(':auto_login_key' => $_COOKIE['auto_login']));
-	$check_user = $stmt->fetch();
+	$user = $stmt->fetch();
 
-	if($check_user['auto_login_key'] === $_COOKIE['auto_login']) {
-		setup_auto_login($db, $check_user['id']);
+	if($user['auto_login_key'] === $_COOKIE['auto_login']) {
+		setup_auto_login($db, $user['id']);
 		header('Location: index.php');
 		exit();
 	}
@@ -34,14 +31,14 @@ if(!empty($_POST)) {
 	if(empty($error_msg)) {
 		$stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
 		$stmt->execute(array(':email' => $email));
-		$check_user = $stmt->fetch();
+		$user = $stmt->fetch();
 
-        if(password_verify($password, $check_user['password'])) {
-			$_SESSION['id'] = $check_user['id'];
-			$_SESSION['time'] = time();
+        if(password_verify($password, $user['password'])) {
+			$_SESSION['id'] = $user['id'];
+			$_SESSION['login_time'] = time();
 
 			if(isset($_POST['auto_login']) && $_POST['auto_login'] === 'checked') {
-				setup_auto_login($db, $check_user['id']);
+				setup_auto_login($db, $user['id']);
 			}
 
             header('Location: index.php');

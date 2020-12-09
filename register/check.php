@@ -1,9 +1,6 @@
 <?php
 $title = '入力内容確認/Chat Space';
 require_once '../template/header.php';
-require_once '../functions.php';
-require_once '../env.php';
-require_once '../connect.php';
 
 session_start();
 
@@ -20,7 +17,6 @@ if(!empty($_POST)) {
 		':email' => $_SESSION['register']['email'],
 		':password' => $encrypted_password
 	));
-	unset($_SESSION['register']);
 
 	header('Location: thanks.php');
 	exit();

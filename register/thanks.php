@@ -1,6 +1,16 @@
 <?php
 $title = '登録完了';
 require_once '../template/header.php';
+
+session_start();
+
+if(!isset($_SESSION['register'])) {
+	header('Location: index.php');
+	exit();
+}
+
+unset($_SESSION['register']);
+
 ?>
 
 <div class="container center-align">

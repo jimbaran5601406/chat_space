@@ -5,6 +5,14 @@ function h($value)
     return htmlspecialchars($value, ENT_QUOTES, "UTF-8");
 }
 
+function fetch_user($db, $id)
+{
+    $stmt = $db->prepare("SELECT * FROM users WHERE id=:id");
+    $stmt->execute(array(':id' => $id));
+    $user = $stmt->fetch();
+    return $user;
+}
+
 function setup_auto_login($db, $user_id)
 {
 	$auto_login_key = hash('sha256', random_bytes(32));
