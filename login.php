@@ -33,19 +33,21 @@ if(!empty($_POST)) {
 		$stmt->execute(array(':email' => $email));
 		$user = $stmt->fetch();
 
-        if(password_verify($password, $user['password'])) {
-			$_SESSION['id'] = $user['id'];
-			$_SESSION['login_time'] = time();
+		if($user !== false) {
+			if(password_verify($password, $user['password'])) {
+				$_SESSION['id'] = $user['id'];
+				$_SESSION['login_time'] = time();
 
-			if(isset($_POST['auto_login']) && $_POST['auto_login'] === 'checked') {
-				setup_auto_login($db, $user['id']);
+				if(isset($_POST['auto_login']) && $_POST['auto_login'] === 'checked') {
+					setup_auto_login($db, $user['id']);
+				}
+
+            	header('Location: index.php');
+				exit();
 			}
-
-            header('Location: index.php');
-            exit();
-        }else {
-            $error_msg['login_failed'] = "※メールアドレスまたはパスワードが間違っています";
-        }
+		} else {
+			$error_msg['login_failed'] = "※メールアドレスまたはパスワードが間違っています";
+		}
 	}
 }
 
