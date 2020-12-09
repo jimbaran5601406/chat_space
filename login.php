@@ -1,5 +1,5 @@
 <?php
-$title = 'ログイン';
+$title = 'ログイン/Chat Space';
 require_once './template/header.php';
 require_once './env.php';
 require_once './connect.php';

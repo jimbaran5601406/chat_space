@@ -1,5 +1,5 @@
 <?php
-$title = '会員登録';
+$title = '会員登録/Chat Space';
 require_once '../template/header.php';
 require_once '../functions.php';
 require_once '../env.php';

@@ -1,5 +1,5 @@
 <?php
-$title = 'トップ';
+$title = 'トップ/Chat Space';
 require_once './template/header.php';
 require_once './functions.php';
 ?>

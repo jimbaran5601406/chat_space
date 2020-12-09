@@ -1,5 +1,5 @@
 <?php
-$title = '入力内容確認';
+$title = '入力内容確認/Chat Space';
 require_once '../template/header.php';
 require_once '../functions.php';
 require_once '../env.php';

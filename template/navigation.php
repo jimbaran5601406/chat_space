@@ -5,7 +5,7 @@
 </ul>
 <nav>
   <div class="nav-wrapper blue">
-    <a href="../index.php" id="app_name">備忘録掲示板</a>
+    <a href="../index.php" id="app_name">Chat Space</a>
     <a href="#" data-target="drawer" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="#">ホーム</a></li>
