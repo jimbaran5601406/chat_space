@@ -40,7 +40,7 @@ if(!empty($_POST)) {
 			$_SESSION['id'] = $check_user['id'];
 			$_SESSION['time'] = time();
 
-			if($_POST['auto_login'] === 'checked') {
+			if(isset($_POST['auto_login']) && $_POST['auto_login'] === 'checked') {
 				setup_auto_login($db, $check_user['id']);
 			}
 
