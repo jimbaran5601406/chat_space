@@ -8,9 +8,9 @@ require_once './functions.php';
 session_start();
 
 if(!empty($_COOKIE['auto_login'])) {
-	$user = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
-	$user->execute(array(':auto_login_key' => $_COOKIE['auto_login']));
-	$check_user = $user->fetch();
+	$stmt = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
+	$stmt->execute(array(':auto_login_key' => $_COOKIE['auto_login']));
+	$check_user = $stmt->fetch();
 
 	if($check_user['auto_login_key'] === $_COOKIE['auto_login']) {
 		setup_auto_login($db, $check_user['id']);
@@ -32,9 +32,9 @@ if(!empty($_POST)) {
 	}
 
 	if(empty($error_msg)) {
-		$user = $db->prepare("SELECT * FROM users WHERE email=:email");
-		$user->execute(array(':email' => $email));
-		$check_user = $user->fetch();
+		$stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
+		$stmt->execute(array(':email' => $email));
+		$check_user = $stmt->fetch();
 
         if(password_verify($password, $check_user['password'])) {
 			$_SESSION['id'] = $check_user['id'];

@@ -26,9 +26,9 @@ if(!empty($_POST)) {
 	}
 
 	if(empty($error_msg)) {
-		$user = $db->prepare("SELECT COUNT(*) as result_num FROM users WHERE email=:email");
-		$user->execute(array(':email' => $email));
-		$record_count = $user->fetch();
+		$stmt = $db->prepare("SELECT COUNT(*) as result_num FROM users WHERE email=:email");
+		$stmt->execute(array(':email' => $email));
+		$record_count = $stmt->fetch();
 		if($record_count['result_num'] > 0) {
 			$error_msg['email_duplicated'] = "※指定したメールアドレスは既に登録されています";
 		}
