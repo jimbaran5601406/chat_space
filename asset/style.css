@@ -1,33 +1,33 @@
 #app_name {
-	font-size: 1.5rem;
 	margin-left: 24px;
+	font-size: 1.5rem;
 }
 @media only screen and (max-width: 600px) {
 	.nav-wrapper {
 		text-align: center;
 	}
 	#app_name {
-		font-size: 1.2rem;
 		margin: 0 60px 0 0;
+		font-size: 1.2rem;
 	}
 }
 .already-registered,
 .not-registered {
-	padding: 0.1em 0.3em;
 	position: relative;
 	display: inline-block;
-	transition: 0.3s;
+	padding: 0.1em 0.3em;
 	color: #2bbbad;
+	transition: 0.3s;
 }
 .already-registered::after,
 .not-registered::after {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	content: "";
 	width: 0;
 	height: 1px;
 	background-color: #2bbbad;
+	content: "";
 	transition: 0.3s;
 }
 .already-registered:hover::after,
@@ -35,8 +35,39 @@
 	width: 100%;
 }
 .session-success-msg {
-	color: #1b5e20;
+	padding: 16px;
 	border-radius: 4px;
 	background-color: #c8e6c9;
-	padding: 16px;
+	color: #1b5e20;
+}
+.card.horizontal .card-image img {
+	top: 50%;
+	left: 50%;
+	margin: 0 8px;
+	width: 100px;
+	-webkit-transform: translateY(-50%) translateX(-50%);
+	transform: translateY(-50%) translateX(-50%);
+}
+.card-content p {
+	word-break: break-all;
+}
+.card-action span {
+	position: absolute;
+	right: 0;
+	margin-right: 24px;
+}
+@media only screen and (max-width: 600px) {
+	.card.horizontal .card-image img {
+		top: 30%;
+		margin: 0 8px;
+		width: 48px;
+	}
+	.card-action a {
+		display: block;
+	}
+	.card-action span {
+		position: relative;
+		display: block;
+		margin-right: 0;
+	}
 }

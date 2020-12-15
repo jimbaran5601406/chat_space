@@ -13,6 +13,26 @@ function fetch_user($db, $id)
     return $user;
 }
 
+function fetch_all_posts($db, $user_id)
+{
+    $stmt = $db->prepare("SELECT
+                                            u.name,
+                                            u.photo,
+                                            p.*
+                                        FROM
+                                            users u,
+                                            posts p
+                                        WHERE
+                                            u.id=$user_id
+                                        ORDER BY
+                                            p.created_at
+                                        DESC"
+                                        );
+    $stmt->execute();
+    $posts = $stmt->fetchAll();
+    return $posts;
+}
+
 function setup_auto_login($db, $user_id)
 {
 	$auto_login_key = hash('sha256', random_bytes(32));

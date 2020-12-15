@@ -11,7 +11,7 @@ if(!isset($_SESSION['register'])) {
 
 if(!empty($_POST)) {
 	$encrypted_password = password_hash($_SESSION['register']['password'], PASSWORD_DEFAULT);
-	$stmt = $db->prepare("INSERT INTO users (name, email, password) VALUES(:name, :email, :password)");
+	$stmt = $db->prepare("INSERT INTO users (name, email, password, created_at) VALUES(:name, :email, :password, NOW())");
 	$stmt->execute(array(
 		':name' => $_SESSION['register']['name'],
 		':email' => $_SESSION['register']['email'],
