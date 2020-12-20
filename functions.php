@@ -13,7 +13,7 @@ function fetch_user($db, $id)
     return $user;
 }
 
-function fetch_all_posts($db, $user_id)
+function fetch_all_posts($db)
 {
     $stmt = $db->prepare("SELECT
                                             u.name,
@@ -23,7 +23,7 @@ function fetch_all_posts($db, $user_id)
                                             users u,
                                             posts p
                                         WHERE
-                                            u.id=$user_id
+                                            u.id=p.user_id
                                         ORDER BY
                                             p.created_at
                                         DESC"
