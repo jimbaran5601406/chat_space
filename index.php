@@ -2,7 +2,8 @@
 $title = 'ホーム/Chat Space';
 require_once './template/header.php';
 
-$posts = fetch_all_posts($db, $user['id']);
+
+$posts = fetch_all_posts($db);
 
 if(!empty($_SESSION['post_success_msg'])) {
 	$post_success_msg = $_SESSION['post_success_msg'];
@@ -51,8 +52,8 @@ if(!empty($_POST)) {
 			</div>
 		</form>
 	</div>
-	<?php foreach($posts as $post): ?>
 	<div class="row">
+	<?php foreach($posts as $post): ?>
 		<div class="col s12">
 			<div class="card horizontal">
 				<div class="card-image">
@@ -76,8 +77,8 @@ if(!empty($_POST)) {
 				</div>
 			</div>
 		</div>
+	    <?php endforeach; ?>
 	</div>
-	<?php endforeach; ?>
 </div>
 <!-- container -->
 </body>

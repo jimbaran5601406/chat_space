@@ -35,6 +35,62 @@ function fetch_all_posts($db)
     return $posts;
 }
 
+function fetch_all_user_posts($db, $user_id)
+{
+    $stmt = $db->prepare("SELECT
+                                            u.name,
+                                            u.photo,
+                                            p.*
+                                        FROM
+                                            users u
+                                        INNER JOIN
+                                            posts p
+                                        ON
+                                            u.id = p.user_id
+                                        WHERE
+                                            p.user_id=$user_id
+                                        AND
+                                            p.reply_message_id IS NULL
+                                        AND
+                                            p.is_liked IS NULL
+                                        OR
+                                            p.is_liked=0
+                                        ORDER BY
+                                            p.created_at
+                                        DESC"
+                                        );
+    $stmt->execute();
+    $user_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $user_posts;
+}
+
+function fetch_all_liked_posts($db, $user_id)
+{
+    $stmt = $db->prepare("SELECT
+                                            u.name,
+                                            u.photo,
+                                            p.*
+                                        FROM
+                                            users u
+                                        INNER JOIN
+                                            posts p
+                                        ON
+                                            u.id = p.user_id
+                                        WHERE
+                                            p.user_id=$user_id
+                                        AND
+                                            p.reply_message_id IS NULL
+                                        AND
+                                            p.is_liked=1
+                                        ORDER BY
+                                            p.created_at
+                                        DESC"
+                                        );
+    $stmt->execute();
+    $user_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $user_posts;
+}
+
 function fetch_post($db, $post_id)
 {
     $stmt = $db->prepare("SELECT
