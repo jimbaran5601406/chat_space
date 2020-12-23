@@ -44,9 +44,9 @@ if(!empty($_POST)) {
 
             	header('Location: index.php');
 				exit();
+			} else {
+				$error_msg['login_failed'] = "※メールアドレスまたはパスワードが間違っています";
 			}
-		} else {
-			$error_msg['login_failed'] = "※メールアドレスまたはパスワードが間違っています";
 		}
 	}
 }
