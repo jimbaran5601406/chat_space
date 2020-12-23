@@ -23,7 +23,6 @@ if($_SERVER['REQUEST_URI'] !== '/login.php' && !strpos($_SERVER['REQUEST_URI'], 
 	  exit();
   }
 }
-
 ?>
 
 <nav>
@@ -32,7 +31,7 @@ if($_SERVER['REQUEST_URI'] !== '/login.php' && !strpos($_SERVER['REQUEST_URI'], 
     <?php if(isset($user)): ?>
     <a href="#" data-target="smp-drawer" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="../profile.php">プロフィール</a></li>
+        <li><a href="../profile.php"><?= $user['name'] ?></a></li>
         <li><a href="../index.php">ホーム</a></li>
         <li><a href="">ログアウト</a></li>
       </ul>

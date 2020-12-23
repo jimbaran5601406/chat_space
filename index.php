@@ -50,33 +50,34 @@ if(!empty($_POST)) {
 				</div>
 			</div>
 		</form>
-		<?php foreach($posts as $post): ?>
-			 <div class="row">
-				 <div class="col s12">
-					<div class="card horizontal">
-						<div class="card-image">
-							<a href="./profile.php?user_id=<?= h($post['user_id']) ?>">
-							<?php if(isset($post['photo'])): ?>
-								<img src="./asset/images/<?= $post['photo'] ?>">
-							<?php else: ?>
-								<img src="./asset/images/default_user.png">
-							<?php endif; ?>
-							</a>
-						</div>
-						<div class="card-stacked">
-							<div class="card-content">
-								<p><?= h($post['message']) ?></p>
-							</div>
-							<div class="card-action">
-								<a href="./detail.php?j">コメント</a>
-								<span><?= $post['created_at'] ?></span>
-							</div>
-						</div>
+	</div>
+	<?php foreach($posts as $post): ?>
+	<div class="row">
+		<div class="col s12">
+			<div class="card horizontal">
+				<div class="card-image">
+					<a href="./profile.php?user_id=<?= h($post['user_id']) ?>">
+					<?php if(isset($post['photo'])): ?>
+						<img src="./asset/images/<?= $post['photo'] ?>">
+					<?php else: ?>
+						<img src="./asset/images/default_user.png">
+					<?php endif; ?>
+					</a>
+				</div>
+				<div class="card-stacked">
+					<div class="card-content">
+						<p><?= h($post['message']) ?></p>
+					</div>
+					<div class="card-action">
+						<span><?= $post['created_at'] ?></span>
+						<a href="./detail.php?post_id=<?= h($post['id']) ?>">コメント</a>
+						<a href="./profile.php?user_id=<?= h($post['user_id']) ?>"><?= $post['name'] ?></a>
 					</div>
 				</div>
-			<?php endforeach; ?>
+			</div>
+		</div>
 	</div>
-	<!-- row -->
+	<?php endforeach; ?>
 </div>
 <!-- container -->
 </body>

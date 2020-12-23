@@ -24,6 +24,8 @@ function fetch_all_posts($db)
                                             posts p
                                         WHERE
                                             u.id=p.user_id
+                                        AND
+                                            p.reply_message_id IS NULL
                                         ORDER BY
                                             p.created_at
                                         DESC"
@@ -31,6 +33,50 @@ function fetch_all_posts($db)
     $stmt->execute();
     $posts = $stmt->fetchAll();
     return $posts;
+}
+
+function fetch_post($db, $post_id)
+{
+    $stmt = $db->prepare("SELECT
+                            u.name,
+                            u.photo,
+                            p.*
+                        FROM
+                            posts p
+                        INNER JOIN
+                            users u
+                        ON p.user_id=u.id
+                        WHERE
+                            p.id=$post_id
+                        ORDER BY
+                            p.created_at
+                        DESC"
+                        );
+    $stmt->execute();
+    $post = $stmt->fetch();
+    return $post;
+}
+
+function fetch_all_reply_posts($db, $post_id)
+{
+    $stmt = $db->prepare("SELECT
+                                            u.name,
+                                            u.photo,
+                                            p.*
+                                        FROM
+                                            users u,
+                                            posts p
+                                        WHERE
+                                            u.id=p.user_id
+                                        AND
+                                            p.reply_message_id=$post_id
+                                        ORDER BY
+                                            p.created_at
+                                        DESC"
+                                        );
+    $stmt->execute();
+    $reply_posts = $stmt->fetchAll();
+    return $reply_posts;
 }
 
 function setup_auto_login($db, $user_id)
