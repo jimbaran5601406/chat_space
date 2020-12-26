@@ -33,8 +33,8 @@ if(!empty($_POST)) {
 
 <div class="container">
 	<div class="row">
-		<form class="col s12" action="" method="post">
-            <div class="card profile">
+		<div class="col s12">
+			<div class="card profile">
                 <div class="card-content profile__content">
                     <div class="profile-image"><img src="./asset/images/default_user.png" alt="ユーザー写真"></div>
                     <div class="profile-name"><?= h($post_owner['name']) ?></div>
@@ -62,7 +62,10 @@ if(!empty($_POST)) {
 				                    </div>
 				                    <div class="card-stacked">
 					                    <div class="card-content">
-						                    <p><?= h($user_post['message']) ?></p>
+											<p><?= h($user_post['message']) ?></p>
+											<button class="btn-like">
+												<img class="<?= $user_post['id'] ?> heart <?= $user_post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
+											</button>
 					                    </div>
 					                    <div class="card-action">
 						                    <span><?= $user_post['created_at'] ?></span>
@@ -91,7 +94,10 @@ if(!empty($_POST)) {
 				                    </div>
 				                    <div class="card-stacked">
 					                    <div class="card-content">
-						                    <p><?= h($like_post['message']) ?></p>
+											<p><?= h($like_post['message']) ?></p>
+											<button class="btn-like">
+												<img class="<?= $like_post['id'] ?> heart <?= $like_post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
+											</button>
 					                    </div>
 					                    <div class="card-action">
 						                    <span><?= $like_post['created_at'] ?></span>
@@ -106,7 +112,7 @@ if(!empty($_POST)) {
 					</div>
                 </div>
             </div>
-		</form>
+		</div>
 	</div>
 </div>
 <!-- container -->

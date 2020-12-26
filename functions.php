@@ -52,8 +52,6 @@ function fetch_all_user_posts($db, $user_id)
                                         AND
                                             p.reply_message_id IS NULL
                                         AND
-                                            p.is_liked IS NULL
-                                        OR
                                             p.is_liked=0
                                         ORDER BY
                                             p.created_at
@@ -87,8 +85,8 @@ function fetch_all_liked_posts($db, $user_id)
                                         DESC"
                                         );
     $stmt->execute();
-    $user_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $user_posts;
+    $liked_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $liked_posts;
 }
 
 function fetch_post($db, $post_id)

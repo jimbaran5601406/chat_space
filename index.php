@@ -68,11 +68,14 @@ if(!empty($_POST)) {
 				<div class="card-stacked">
 					<div class="card-content">
 						<p><?= h($post['message']) ?></p>
+						<button class="btn-like">
+							<img class="<?= $post['id'] ?> heart <?= $post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
+						</button>
 					</div>
 					<div class="card-action">
-						<span><?= $post['created_at'] ?></span>
 						<a href="./detail.php?post_id=<?= h($post['id']) ?>">コメント</a>
 						<a href="./profile.php?user_id=<?= h($post['user_id']) ?>"><?= $post['name'] ?></a>
+						<span><?= $post['created_at'] ?></span>
 					</div>
 				</div>
 			</div>
