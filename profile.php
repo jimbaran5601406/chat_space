@@ -3,15 +3,16 @@
 $title = 'プロフィール/Chat Space';
 require_once './template/header.php';
 
+$user_id = h($_GET['user_id']);
 $user_posts = fetch_all_user_posts($db, $_GET['user_id']);
 $liked_posts = fetch_all_liked_posts($db, $_GET['user_id']);
 $post_owner = fetch_user($db, $_GET['user_id']);
 
-if(!empty($_SESSION['post_success_msg'])) {
-	$post_success_msg = $_SESSION['post_success_msg'];
-	unset($_SESSION['post_success_msg']);
+if(!empty($_SESSION['after_action_msg'])) {
+	$after_action_msg = $_SESSION['after_action_msg'];
+	unset($_SESSION['after_action_msg']);
 }
-if(!empty($_POST)) {
+if(!empty($_POST['post-action'])) {
 	$message = h($_POST['message']);
 
 	if($message === '') {
@@ -22,18 +23,33 @@ if(!empty($_POST)) {
 			':message' => $message,
 			':user_id' => $user['id']
 		));
-		$_SESSION['post_success_msg'] = "投稿が完了しました！";
+		$_SESSION['after_action_msg'] = "投稿が完了しました！";
 
 		// 二重送信防止
 		header('Location: index.php');
 		exit();
 	}
 }
+if (!empty($_POST['del-action'])) {
+
+	$post_id = h($_POST['post_id']);
+	delete_post($db, $post_id);
+	$_SESSION['after_action_msg'] = "削除が完了しました！";
+
+	// 二重送信防止
+	header('Location: profile.php?user_id='.$user_id);
+	exit();
+}
 ?>
 
 <div class="container">
 	<div class="row">
 		<div class="col s12">
+			<div class="row">
+				<?php if(isset($after_action_msg)): ?>
+					<p class="session-success-msg"><?= $after_action_msg ?></p>
+				<?php endif;?>
+            </div>
 			<div class="card profile">
                 <div class="card-content profile__content">
                     <div class="profile-image"><img src="./asset/images/default_user.png" alt="ユーザー写真"></div>
@@ -48,7 +64,22 @@ if(!empty($_POST)) {
                 <div class="card-content grey lighten-4">
                     <div id="post">
 	                    <div class="row">
-                        <?php foreach($user_posts as $user_post): ?>
+						<?php foreach($user_posts as $user_post): ?>
+							<?php if($_SESSION['id'] == $user_post['user_id']): ?>
+								<div id="modal<?= $user_post['id'] ?>" class="modal">
+									<form class="col s12" action="" method="post">
+										<div class="modal-content">
+											<h4>本当に投稿を削除してよろしいですか？</h4>
+											<p>一度削除した投稿は元に戻せません。</p>
+										</div>
+										<div class="modal-footer">
+											<a href="#!" class="modal-close">キャンセル</a>
+											<input type="hidden" name="post_id" value="<?= $user_post['id'] ?>">
+											<button class="modal-close btn-style-reset" type="submit" name="del-action" value="1">削除</button>
+										</div>
+									</form>
+								</div>
+							<?php endif; ?>
 		                    <div class="col s12">
 			                    <div class="card horizontal">
 				                    <div class="card-image">
@@ -63,14 +94,17 @@ if(!empty($_POST)) {
 				                    <div class="card-stacked">
 					                    <div class="card-content">
 											<p><?= h($user_post['message']) ?></p>
-											<button class="btn-like">
+											<button class="btn-like btn-style-reset">
 												<img class="<?= $user_post['id'] ?> heart <?= $user_post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
 											</button>
 					                    </div>
 					                    <div class="card-action">
-						                    <span><?= $user_post['created_at'] ?></span>
+											<?php if($_SESSION['id'] == $user_post['user_id']): ?>
+												<a class="del-btn modal-trigger" href="#modal<?= $user_post['id'] ?>" style="color: #F44336;">削除</a>
+											<?php endif; ?>
 						                    <a href="./detail.php?post_id=<?= h($user_post['id']) ?>">コメント</a>
 						                    <a href="./profile.php?user_id=<?= h($user_post['user_id']) ?>"><?= $user_post['name'] ?></a>
+											<span><?= $user_post['created_at'] ?></span>
 					                    </div>
 				                    </div>
 			                    </div>
@@ -80,7 +114,22 @@ if(!empty($_POST)) {
                     </div>
                     <div id="like">
 						<div class="row">
-                        <?php foreach($liked_posts as $like_post): ?>
+						<?php foreach($liked_posts as $like_post): ?>
+							<?php if($_SESSION['id'] == $like_post['user_id']): ?>
+								<div id="modal<?= $like_post['id'] ?>" class="modal">
+									<form class="col s12" action="" method="post">
+										<div class="modal-content">
+											<h4>本当に投稿を削除してよろしいですか？</h4>
+											<p>一度削除した投稿は元に戻せません。</p>
+										</div>
+										<div class="modal-footer">
+											<a href="#!" class="modal-close">キャンセル</a>
+											<input type="hidden" name="post_id" value="<?= $like_post['id'] ?>">
+											<button class="modal-close btn-style-reset" type="submit" name="del-action" value="1">削除</button>
+										</div>
+									</form>
+								</div>
+							<?php endif; ?>
 		                    <div class="col s12">
 			                    <div class="card horizontal">
 				                    <div class="card-image">
@@ -95,14 +144,17 @@ if(!empty($_POST)) {
 				                    <div class="card-stacked">
 					                    <div class="card-content">
 											<p><?= h($like_post['message']) ?></p>
-											<button class="btn-like">
+											<button class="btn-like btn-style-reset">
 												<img class="<?= $like_post['id'] ?> heart <?= $like_post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
 											</button>
 					                    </div>
 					                    <div class="card-action">
-						                    <span><?= $like_post['created_at'] ?></span>
+											<?php if($_SESSION['id'] == $like_post['user_id']): ?>
+												<a class="del-btn modal-trigger" href="#modal<?= $like_post['id'] ?>" style="color: #F44336;">削除</a>
+											<?php endif; ?>
 						                    <a href="./detail.php?post_id=<?= h($like_post['id']) ?>">コメント</a>
 						                    <a href="./profile.php?user_id=<?= h($like_post['user_id']) ?>"><?= $like_post['name'] ?></a>
+						                    <span><?= $like_post['created_at'] ?></span>
 					                    </div>
 				                    </div>
 			                    </div>

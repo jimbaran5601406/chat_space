@@ -5,11 +5,11 @@ require_once './template/header.php';
 
 $posts = fetch_all_posts($db);
 
-if(!empty($_SESSION['post_success_msg'])) {
-	$post_success_msg = $_SESSION['post_success_msg'];
-	unset($_SESSION['post_success_msg']);
+if(!empty($_SESSION['after_action_msg'])) {
+	$after_action_msg = $_SESSION['after_action_msg'];
+	unset($_SESSION['after_action_msg']);
 }
-if(!empty($_POST)) {
+if(!empty($_POST['post-action'])) {
 	$message = h($_POST['message']);
 
 	if($message === '') {
@@ -20,12 +20,22 @@ if(!empty($_POST)) {
 			':message' => $message,
 			':user_id' => $user['id']
 		));
-		$_SESSION['post_success_msg'] = "投稿が完了しました！";
+		$_SESSION['after_action_msg'] = "投稿が完了しました！";
 
 		// 二重送信防止
 		header('Location: index.php');
 		exit();
 	}
+}
+if (!empty($_POST['del-action'])) {
+
+	$post_id = h($_POST['post_id']);
+	delete_post($db, $post_id);
+	$_SESSION['after_action_msg'] = "削除が完了しました！";
+
+	// 二重送信防止
+	header('Location: index.php');
+	exit();
 }
 ?>
 
@@ -33,8 +43,8 @@ if(!empty($_POST)) {
 	<div class="row">
 		<form class="col s12" action="" method="post">
 			<div class="row">
-				<?php if(isset($post_success_msg)): ?>
-					<p class="session-success-msg"><?= $post_success_msg ?></p>
+				<?php if(isset($after_action_msg)): ?>
+					<p class="session-success-msg"><?= $after_action_msg ?></p>
 				<?php endif;?>
             </div>
 			<div class="row">
@@ -46,7 +56,7 @@ if(!empty($_POST)) {
 					<?php endif;?>
 				</div>
 				<div class="input-field">
-					<button class="waves-effect waves-light btn blue" type="submit">投稿</button>
+					<button class="waves-effect waves-light btn blue" type="submit" name="post-action" value="1">投稿</button>
 					<button class="waves-effect waves-light btn grey" type="reset">リセット</button>
 				</div>
 			</div>
@@ -54,6 +64,21 @@ if(!empty($_POST)) {
 	</div>
 	<div class="row">
 	<?php foreach($posts as $post): ?>
+		<?php if($_SESSION['id'] == $post['user_id']): ?>
+		<div id="modal<?= $post['id'] ?>" class="modal">
+			<form class="col s12" action="" method="post">
+    			<div class="modal-content">
+      				<h4>本当に投稿を削除してよろしいですか？</h4>
+      				<p>一度削除した投稿は元に戻せません。</p>
+    			</div>
+    			<div class="modal-footer">
+					  <a href="#!" class="modal-close">キャンセル</a>
+					  <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
+					  <button class="modal-close btn-style-reset" type="submit" name="del-action" value="1">削除</button>
+				</div>
+			</form>
+		  </div>
+		<?php endif; ?>
 		<div class="col s12">
 			<div class="card horizontal">
 				<div class="card-image">
@@ -68,11 +93,14 @@ if(!empty($_POST)) {
 				<div class="card-stacked">
 					<div class="card-content">
 						<p><?= h($post['message']) ?></p>
-						<button class="btn-like">
+						<button class="btn-like btn-style-reset">
 							<img class="<?= $post['id'] ?> heart <?= $post['is_liked']? 'like': '' ?>" src="./asset/images/like-false.svg" alt="お気に入りの投稿" width="32px">
 						</button>
 					</div>
 					<div class="card-action">
+						<?php if($_SESSION['id'] == $post['user_id']): ?>
+						<a class="del-btn modal-trigger" href="#modal<?= $post['id'] ?>" style="color: #F44336;">削除</a>
+						<?php endif; ?>
 						<a href="./detail.php?post_id=<?= h($post['id']) ?>">コメント</a>
 						<a href="./profile.php?user_id=<?= h($post['user_id']) ?>"><?= $post['name'] ?></a>
 						<span><?= $post['created_at'] ?></span>

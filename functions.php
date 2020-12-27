@@ -154,3 +154,10 @@ function reset_auto_login($db, $user_id)
     ));
 	setcookie('auto_login', "", time()-1);
 }
+
+function delete_post($db, $post_id) {
+    $stmt = $db->prepare("DELETE FROM posts WHERE id=:post_id");
+	$stmt->execute(array(
+		':post_id' => $post_id
+	));
+}

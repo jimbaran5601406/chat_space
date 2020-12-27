@@ -7,6 +7,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+	$(".modal").modal();
+});
+
+$(document).ready(function () {
 	let messages = document.querySelectorAll(".card-content p");
 	messages.forEach((message) => {
 		if (message.innerText.length > 100) {
