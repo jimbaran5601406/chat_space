@@ -2,8 +2,26 @@
 $title = 'ホーム/Chat Space';
 require_once './template/header.php';
 
+if(isset($_GET['page'])) {
+	$page = h($_GET['page']);
+} else {
+	$page = 1;
+}
 
-$posts = fetch_all_posts($db);
+$page = max($page, 1);
+
+$countStmt = $db->query("
+					SELECT
+						COUNT(*) AS postNum
+					FROM
+						posts
+					");
+$result = $countStmt->fetch();
+$maxPage = ceil($result['postNum'] / 10);
+$page = min($page, $maxPage);
+
+$posts = fetch_all_posts($db, $page);
+
 
 if(!empty($_SESSION['after_action_msg'])) {
 	$after_action_msg = $_SESSION['after_action_msg'];
@@ -108,7 +126,31 @@ if (!empty($_POST['del-action'])) {
 				</div>
 			</div>
 		</div>
-	    <?php endforeach; ?>
+		<?php endforeach; ?>
+		<div class="row center-align">
+			<ul class="pagination">
+				<?php if($page > 1): ?>
+				<li class="waves-effect"><a href="index.php?page=<?= $page-1 ?>"><i class="material-icons">chevron_left</i></a></li>
+				<?php else: ?>
+				<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+				<?php endif; ?>
+
+				<?php for($i = 1; $i <= $maxPage; $i++): ?>
+				<li class="waves-effect"><a href="index.php?page=<?= $i ?>"><?= $i ?></a></li>
+				<?php endfor; ?>
+
+				<?php if($page < $maxPage): ?>
+				<li class="waves-effect"><a href="index.php?page=<?= $page+1 ?>"><i class="material-icons">chevron_right</i></a></li>
+				<?php else: ?>
+				<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+				<?php endif; ?>
+    			<!-- <li class="active"><a href="#!">1</a></li>
+    			<li class="waves-effect"><a href="#!">2</a></li>
+    			<li class="waves-effect"><a href="#!">3</a></li>
+    			<li class="waves-effect"><a href="#!">4</a></li>
+    			<li class="waves-effect"><a href="#!">5</a></li> -->
+  			</ul>
+		</div>
 	</div>
 </div>
 <!-- container -->

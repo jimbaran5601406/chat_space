@@ -13,8 +13,10 @@ function fetch_user($db, $id)
     return $user;
 }
 
-function fetch_all_posts($db)
+function fetch_all_posts($db, $page)
 {
+    $startPage = ($page - 1) * 10;
+
     $stmt = $db->prepare("SELECT
                                             u.name,
                                             u.photo,
@@ -28,8 +30,11 @@ function fetch_all_posts($db)
                                             p.reply_message_id IS NULL
                                         ORDER BY
                                             p.created_at
-                                        DESC"
+                                        DESC
+                                        LIMIT
+                                            :startPage, 10"
                                         );
+    $stmt->bindParam(':startPage', $startPage, PDO::PARAM_INT);
     $stmt->execute();
     $posts = $stmt->fetchAll();
     return $posts;
