@@ -153,8 +153,9 @@ function setup_auto_login($db, $user_id)
 
 function reset_auto_login($db, $user_id)
 {
-    $stmt = $db->prepare("UPDATE users SET auto_login_key='', expire_at='' WHERE auto_login_key=:auto_login_key");
+    $stmt = $db->prepare("UPDATE users SET auto_login_key=NULL, expire_at=NULL WHERE id=:user_id AND auto_login_key=:auto_login_key");
     $stmt->execute(array(
+        ':user_id' => $user_id,
         ':auto_login_key' => $_COOKIE['auto_login']
     ));
 	setcookie('auto_login', "", time()-1);

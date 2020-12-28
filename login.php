@@ -4,6 +4,9 @@ require_once './template/header.php';
 
 session_start();
 
+$after_action_msg = h($_SESSION['after_action_msg']);
+unset($_SESSION['after_action_msg']);
+
 if(!empty($_COOKIE['auto_login'])) {
 	$stmt = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
 	$stmt->execute(array(':auto_login_key' => $_COOKIE['auto_login']));
@@ -63,9 +66,12 @@ if(!empty($_POST)) {
 	<div class="row">
 		<form class="col s12" action="" method="post">
 			<div class="row">
+				<?php if(isset($after_action_msg)): ?>
+					<p class="session-success-msg"><?= $after_action_msg ?></p>
+				<?php endif;?>
                 <?php if(isset($error_msg['login_failed'])): ?>
                     <p class="red-text"><?= $error_msg['login_failed'] ?></p>
-                <?php endif;?>
+				<?php endif;?>
             </div>
 			<div class="row">
 				<div class="input-field">
