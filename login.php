@@ -4,8 +4,10 @@ require_once './template/header.php';
 
 session_start();
 
-$after_action_msg = h($_SESSION['after_action_msg']);
-unset($_SESSION['after_action_msg']);
+if(!empty($_SESSION['after_action_msg'])) {
+	$after_action_msg = h($_SESSION['after_action_msg']);
+	unset($_SESSION['after_action_msg']);
+}
 
 if(!empty($_COOKIE['auto_login'])) {
 	$stmt = $db->prepare('SELECT * FROM users WHERE auto_login_key=:auto_login_key');
