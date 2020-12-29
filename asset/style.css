@@ -1,14 +1,19 @@
+nav {
+	margin-bottom: 40px;
+}
 #app_name {
-	margin-left: 24px;
 	font-size: 1.5rem;
+
+	margin-left: 24px;
 }
 @media only screen and (max-width: 600px) {
 	.nav-wrapper {
 		text-align: center;
 	}
 	#app_name {
-		margin: 0 60px 0 0;
 		font-size: 1.2rem;
+
+		margin: 0 60px 0 0;
 	}
 }
 .already-registered,
@@ -16,8 +21,8 @@
 	position: relative;
 	display: inline-block;
 	padding: 0.1em 0.3em;
-	color: #2bbbad;
 	transition: 0.3s;
+	color: #2bbbad;
 }
 .already-registered::after,
 .not-registered::after {
@@ -26,9 +31,9 @@
 	left: 0;
 	width: 0;
 	height: 1px;
-	background-color: #2bbbad;
 	content: "";
 	transition: 0.3s;
+	background-color: #2bbbad;
 }
 .already-registered:hover::after,
 .not-registered:hover::after {
@@ -36,17 +41,35 @@
 }
 .session-success-msg {
 	padding: 16px;
+	color: #1b5e20;
 	border-radius: 4px;
 	background-color: #c8e6c9;
-	color: #1b5e20;
+}
+
+@media only screen and (max-width: 600px) {
+	.card.horizontal {
+		text-align: left;
+	}
+	.card.horizontal .card-image {
+		display: none;
+	}
+	.card .card-content {
+		padding: 24px 0;
+	}
+	.card .card-content p {
+		padding: 0 24px;
+	}
 }
 .card.horizontal .card-image img {
 	top: 50%;
 	left: 50%;
-	margin: 0 8px;
 	width: 100px;
+	margin: 0 8px;
 	-webkit-transform: translateY(-50%) translateX(-50%);
 	transform: translateY(-50%) translateX(-50%);
+}
+.detail-card {
+	background-color: #eee;
 }
 .card-content p {
 	word-break: break-all;
@@ -59,8 +82,8 @@
 @media only screen and (max-width: 600px) {
 	.card.horizontal .card-image img {
 		top: 30%;
-		margin: 0 8px;
 		width: 48px;
+		margin: 0 8px;
 	}
 	.card-action a {
 		display: block;
@@ -71,8 +94,8 @@
 		margin-right: 0;
 	}
 }
-.profile .profile__content {
-	text-align: center;
+.profile-image img {
+	width: 160px;
 }
 .card .card-content {
 	position: relative;
@@ -80,7 +103,7 @@
 .card .card-content .btn-like {
 	position: absolute;
 	right: 24px;
-	bottom: 0px;
+	bottom: 0;
 }
 @media screen and (max-width: 600px) {
 	.card .card-content .btn-like {
@@ -89,34 +112,72 @@
 }
 
 .btn-style-reset {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-	outline: none;
 	padding: 0;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	background-color: transparent;
 	appearance: none;
 }
 .btn-style-reset:focus {
 	background-color: #fff;
 }
 .modal .modal-footer button {
-	margin-left: 16px;
+	margin: 0 16px;
 	color: #f44336;
 }
 .btn-logout {
-	transition: background-color 0.3s;
 	font-size: 1rem;
-	color: #fff;
+	line-height: 64px;
 	display: block;
 	padding: 0 15px;
 	cursor: pointer;
-	line-height: 64px;
 	-webkit-transition: background-color 0.3s;
+	transition: background-color 0.3s;
+	color: #fff;
 }
 @media screen and (max-width: 600px) {
 	.btn-logout {
-		color: rgba(0, 0, 0, 0.87);
-		padding: 0 32px;
 		line-height: 48px;
+		padding: 0 32px;
+		color: rgba(0, 0, 0, 0.87);
+		width: 100%;
+		text-align: left;
 	}
+}
+.profile-dropdown li a {
+	padding: 14px 12px;
+}
+@media screen and (max-width: 600px) {
+	.profile-dropdown li a {
+		padding: 0 32px;
+	}
+}
+.profile-dropdown li button {
+	width: 100%;
+	text-align: left;
+	font-size: 16px;
+	color: #26a69a;
+	line-height: 22px;
+	padding: 14px 12px;
+}
+@media screen and (max-width: 600px) {
+	.profile-dropdown li button {
+		color: rgba(0, 0, 0, 0.87);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 48px;
+		padding: 0 32px;
+	}
+}
+/* .profile-dropdown li a i {
+	margin: 0;
+} */
+.profile-dropdown li a i.left,
+.profile-dropdown li button i.left {
+	width: 24px;
+	margin-right: 8px;
+	height: inherit;
+	line-height: inherit;
+	float: left;
 }

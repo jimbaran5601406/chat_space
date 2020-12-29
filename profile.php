@@ -52,7 +52,12 @@ if (!empty($_POST['del-action'])) {
             </div>
 			<div class="card profile">
                 <div class="card-content profile__content">
-                    <div class="profile-image"><img src="./asset/images/default_user.png" alt="ユーザー写真"></div>
+                    <div class="profile-image center-align">
+						<?php if(isset($user['photo'])): ?>
+							<img src="./asset/images/user_images/<?= $user['photo'] ?>">
+						<?php else: ?>
+							<img src="./asset/images/default_user.png" alt="ユーザー写真"></div>
+						<?php endif; ?>
                     <div class="profile-name"><?= h($post_owner['name']) ?></div>
                 </div>
                 <div class="card-tabs">
@@ -61,7 +66,7 @@ if (!empty($_POST['del-action'])) {
                         <li class="tab"><a href="#like">お気に入り</a></li>
                     </ul>
                 </div>
-                <div class="card-content grey lighten-4">
+                <div class="card-content">
                     <div id="post">
 	                    <div class="row">
 						<?php foreach($user_posts as $user_post): ?>
@@ -85,7 +90,7 @@ if (!empty($_POST['del-action'])) {
 				                    <div class="card-image">
 					                    <a href="./profile.php?user_id=<?= h($user_post['user_id']) ?>">
 					                    <?php if(isset($user_post['photo'])): ?>
-						                    <img src="./asset/images/<?= $user_post['photo'] ?>">
+											<img src="./asset/images/user_images/<?= $user_post['photo'] ?>">
 					                    <?php else: ?>
 						                    <img src="./asset/images/default_user.png">
 					                    <?php endif; ?>
@@ -135,7 +140,7 @@ if (!empty($_POST['del-action'])) {
 				                    <div class="card-image">
 					                    <a href="./profile.php?user_id=<?= h($like_post['user_id']) ?>">
 					                    <?php if(isset($like_post['photo'])): ?>
-						                    <img src="./asset/images/<?= $like_post['photo'] ?>">
+						                    <img src="./asset/images/user_images/<?= $like_post['photo'] ?>">
 					                    <?php else: ?>
 						                    <img src="./asset/images/default_user.png">
 					                    <?php endif; ?>

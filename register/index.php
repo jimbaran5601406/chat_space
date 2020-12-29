@@ -23,11 +23,19 @@ if(!empty($_POST)) {
 		$error_msg['password_min'] = "※パスワードは8文字以上入力してください";
 	}
 
-	if(empty($error_msg)) {
-		$stmt = $db->prepare("SELECT COUNT(*) as result_num FROM users WHERE email=:email");
+	if(!empty($name)) {
+        $stmt = $db->prepare("SELECT COUNT(*) as record_num FROM users WHERE name=:name");
+		$stmt->execute(array(':name' => $name));
+		$record_count = $stmt->fetch();
+		if($record_count['record_num'] > 0) {
+			$error_msg['name_duplicated'] = "※指定したユーザー名は既に登録されています";
+		}
+    }
+	if(!empty($email)) {
+		$stmt = $db->prepare("SELECT COUNT(*) as record_num FROM users WHERE email=:email");
 		$stmt->execute(array(':email' => $email));
 		$record_count = $stmt->fetch();
-		if($record_count['result_num'] > 0) {
+		if($record_count['record_num'] > 0) {
 			$error_msg['email_duplicated'] = "※指定したメールアドレスは既に登録されています";
 		}
 	}
@@ -61,6 +69,9 @@ if(isset($_GET['action']) && isset($_SESSION['register'])) {
 					<label for="name">ユーザー名</label>
 					<?php if(isset($error_msg['name_required'])): ?>
 						<p class="red-text"><?= $error_msg['name_required'] ?></p>
+					<?php endif;?>
+					<?php if(isset($error_msg['name_duplicated'])): ?>
+						<p class="red-text"><?= $error_msg['name_duplicated'] ?></p>
 					<?php endif;?>
 				</div>
 			</div>

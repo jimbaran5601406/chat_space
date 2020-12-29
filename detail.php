@@ -67,11 +67,11 @@ if (!empty($_POST['del-action'])) {
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="card horizontal">
+            <div class="card horizontal detail-card">
                 <div class="card-image">
                     <a href="./profile.php?user_id=<?= h($post['user_id']) ?>">
                     <?php if(isset($post['photo'])): ?>
-                        <img src="./asset/images/<?= $post['photo'] ?>">
+						<img src="./asset/images/user_images/<?= $like_post['photo'] ?>">
                     <?php else: ?>
                         <img src="./asset/images/default_user.png">
                     <?php endif; ?>
@@ -111,7 +111,7 @@ if (!empty($_POST['del-action'])) {
 				<div class="card-image">
 					<a href="./profile.php?user_id=<?= h($reply_post['user_id']) ?>">
 					<?php if(isset($reply_post['photo'])): ?>
-						<img src="./asset/images/<?= $reply_post['photo'] ?>">
+						<img src="./asset/images/user_images/<?= $reply_post['photo'] ?>">
 					<?php else: ?>
 						<img src="./asset/images/default_user.png">
 					<?php endif; ?>

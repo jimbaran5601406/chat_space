@@ -102,7 +102,7 @@ if (!empty($_POST['del-action'])) {
 				<div class="card-image">
 					<a href="./profile.php?user_id=<?= h($post['user_id']) ?>">
 					<?php if(isset($post['photo'])): ?>
-						<img src="./asset/images/<?= $post['photo'] ?>">
+						<img src="./asset/images/user_images/<?= $post['photo'] ?>">
 					<?php else: ?>
 						<img src="./asset/images/default_user.png">
 					<?php endif; ?>

@@ -1,13 +1,9 @@
 $(document).ready(function () {
 	$(".sidenav").sidenav();
-});
-
-$(document).ready(function () {
 	$("textarea#message").characterCounter();
-});
-
-$(document).ready(function () {
 	$(".modal").modal();
+	$(".tabs").tabs();
+	$(".dropdown-trigger").dropdown();
 });
 
 $(document).ready(function () {
@@ -17,10 +13,6 @@ $(document).ready(function () {
 			message.innerHTML = message.innerText.substr(0, 100) + "...";
 		}
 	});
-});
-
-$(document).ready(function () {
-	$(".tabs").tabs();
 });
 
 $(document).ready(function () {
