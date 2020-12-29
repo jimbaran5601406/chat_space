@@ -22,11 +22,12 @@ function fetch_all_posts($db, $page)
                             u.photo,
                             p.*
                         FROM
-                            users u,
+                            users u
+                        INNER JOIN
                             posts p
+                        ON
+                            u.id = p.user_id
                         WHERE
-                            u.id=p.user_id
-                        AND
                             p.reply_message_id IS NULL
                         ORDER BY
                             p.created_at
@@ -36,7 +37,7 @@ function fetch_all_posts($db, $page)
                         );
     $stmt->bindParam(':startPage', $startPage, PDO::PARAM_INT);
     $stmt->execute();
-    $posts = $stmt->fetchAll();
+    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $posts;
 }
 

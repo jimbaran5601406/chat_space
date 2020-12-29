@@ -15,6 +15,8 @@ $countStmt = $db->query("
 						COUNT(*) AS postNum
 					FROM
 						posts
+					WHERE
+						reply_message_id IS NULL
 					");
 $result = $countStmt->fetch();
 $maxPage = ceil($result['postNum'] / 10);

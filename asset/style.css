@@ -145,6 +145,14 @@ nav {
 		text-align: left;
 	}
 }
+ul.profile-dropdown {
+	width: 160px !important;
+}
+@media screen and (max-width: 600px) {
+	ul.profile-dropdown {
+		width: 100% !important;
+	}
+}
 .profile-dropdown li a {
 	padding: 14px 12px;
 }
@@ -170,9 +178,6 @@ nav {
 		padding: 0 32px;
 	}
 }
-/* .profile-dropdown li a i {
-	margin: 0;
-} */
 .profile-dropdown li a i.left,
 .profile-dropdown li button i.left {
 	width: 24px;

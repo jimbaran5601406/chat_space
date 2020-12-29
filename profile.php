@@ -51,8 +51,8 @@ if (!empty($_POST['del-action'])) {
 				<?php endif;?>
             </div>
 			<div class="card profile">
-                <div class="card-content profile__content">
-                    <div class="profile-image center-align">
+                <div class="card-content profile__content center-align">
+                    <div class="profile-image">
 						<?php if(isset($user['photo'])): ?>
 							<img src="./asset/images/user_images/<?= $user['photo'] ?>">
 						<?php else: ?>
