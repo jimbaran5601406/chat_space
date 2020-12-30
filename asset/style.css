@@ -97,6 +97,9 @@ nav {
 .profile-image img {
 	width: 160px;
 }
+.card .card-stacked {
+	text-align: left;
+}
 .card .card-content {
 	position: relative;
 }
@@ -135,6 +138,9 @@ nav {
 	-webkit-transition: background-color 0.3s;
 	transition: background-color 0.3s;
 	color: #fff;
+}
+.btn-logout:hover {
+	background-color: rgba(0, 0, 0, 0.1);
 }
 @media screen and (max-width: 600px) {
 	.btn-logout {
