@@ -185,8 +185,7 @@ function update_setting($db, ...$setting_info)
     $new_photo = $setting_info[1];
     $new_name = $setting_info[2];
     $new_email = $setting_info[3];
-    $new_password = password_hash($setting_info[4], PASSWORD_DEFAULT);
-
+    $new_password = $setting_info[4] ? password_hash($setting_info[4], PASSWORD_DEFAULT) : '';
 
     if(!empty($new_photo)) {
         $stmt = $db->prepare("UPDATE
